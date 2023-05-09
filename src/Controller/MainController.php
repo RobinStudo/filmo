@@ -5,19 +5,24 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('', 'main_')]
 class MainController
 {
-    #[Route('/', 'main_index')]
+    #[Route('/', 'index')]
     public function index(): Response
     {
         return new Response('Hello World!');
     }
 
-    #[Route('/blog', 'main_blog')]
-    public function blog(): Response
+    #[Route('/contact', 'contact')]
+    public function contact(): Response
     {
-        return new Response('Hello Blog!');
+        return new Response('Page de contact');
     }
 
-    // TODO - Créer 3 routes pour la page de contact, la page A propos, la page de liste des films
+    #[Route('/a-propos', 'about')]
+    public function about(): Response
+    {
+        return new Response('Page A propos');
+    }
 }
