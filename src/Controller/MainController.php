@@ -2,16 +2,22 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('', 'main_')]
-class MainController
+class MainController extends AbstractController
 {
     #[Route('/', 'index')]
     public function index(): Response
     {
-        return new Response('Hello World!');
+        $sentence = 'Bienvenue sur';
+        $appName = 'Filmo';
+        return $this->render('main/index.html.twig', [
+            'sentence' => $sentence,
+            'name' => $appName,
+        ]);
     }
 
     #[Route('/contact', 'contact')]
