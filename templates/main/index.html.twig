@@ -1,31 +1,30 @@
-<!doctype html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Filmo - Page d'accueil</title>
-    </head>
-    <body>
-        <p>
-            Il y a {{ notes|length }} notes à afficher.<br>
-            La moyenne est de {{ average|round(2) }}
-        </p>
-        <ul>
-            {% for note in notes %}
-                <li>
-                    {{ note }}
+{% extends 'base.html.twig' %}
 
-                    {% if note < 5 %}
-                        Pas bien
-                    {% elseif note < 10 %}
-                        Passable
-                    {% elseif note < 15 %}
-                        Bien
-                    {% else %}
-                        Très bien
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    </body>
-</html>
+{% block title %}
+    Accueil - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <p>
+        Il y a {{ notes|length }} notes à afficher.<br>
+        La moyenne est de {{ average|round(2) }}
+    </p>
+    <ul>
+        {% for note in notes %}
+            <li>
+                {{ note }}
+
+                {% if note < 5 %}
+                    Pas bien
+                {% elseif note < 10 %}
+                    Passable
+                {% elseif note < 15 %}
+                    Bien
+                {% else %}
+                    Très bien
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
