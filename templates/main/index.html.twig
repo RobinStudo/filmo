@@ -6,6 +6,10 @@
         <title>Filmo - Page d'accueil</title>
     </head>
     <body>
+        <p>
+            Il y a {{ notes|length }} notes à afficher.<br>
+            La moyenne est de {{ average|round(2) }}
+        </p>
         <ul>
             {% for note in notes %}
                 <li>

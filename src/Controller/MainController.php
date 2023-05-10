@@ -13,9 +13,11 @@ class MainController extends AbstractController
     public function index(): Response
     {
         $notes = [12, 14, 18, 5, 2, 8, 16, 10];
+        $average = array_sum($notes) / count($notes);
 
         return $this->render('main/index.html.twig', [
             'notes' => $notes,
+            'average' => $average,
         ]);
     }
 
