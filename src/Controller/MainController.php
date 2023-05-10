@@ -12,11 +12,10 @@ class MainController extends AbstractController
     #[Route('/', 'index')]
     public function index(): Response
     {
-        $sentence = 'Bienvenue sur';
-        $appName = 'Filmo';
+        $notes = [12, 14, 18, 5, 2, 8, 16, 10];
+
         return $this->render('main/index.html.twig', [
-            'sentence' => $sentence,
-            'name' => $appName,
+            'notes' => $notes,
         ]);
     }
 

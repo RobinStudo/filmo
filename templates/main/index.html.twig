@@ -6,7 +6,22 @@
         <title>Filmo - Page d'accueil</title>
     </head>
     <body>
-        <h1>{{ sentence ~ ' ' ~ name }}</h1>
-        <p>{{ 2 * 8 }}</p>
+        <ul>
+            {% for note in notes %}
+                <li>
+                    {{ note }}
+
+                    {% if note < 5 %}
+                        Pas bien
+                    {% elseif note < 10 %}
+                        Passable
+                    {% elseif note < 15 %}
+                        Bien
+                    {% else %}
+                        Très bien
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
     </body>
 </html>
