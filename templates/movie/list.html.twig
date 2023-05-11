@@ -4,21 +4,34 @@
     Explorer les films - {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/movie/list.css') }}">
+{% endblock %}
+
 {% block body %}
     <h1>Explorer les films</h1>
 
     <div class="movies">
         {% for movie in movies %}
             <a href="#" class="card">
-                <span>{{ movie.category.name }}</span>
-                <h2>{{ movie.name }}</h2>
-                <span>{{ movie.releasedAt|date('Y') }}</span>
+                <div class="card-header">
+                    <span class="badge">{{ movie.category.name }}</span>
+                    <img src="{{ asset('images/movie-default.jpg') }}" alt="{{ movie.name }}">
+                </div>
 
-                {% for crew in movie.crews %}
-                    {% if crew.role == 'DIRECTOR' %}
-                        {{ crew.person.firstname ~ ' ' ~ crew.person.lastname }}
-                    {% endif %}
-                {% endfor %}
+                <h2>{{ movie.name }}</h2>
+
+                <div class="card-content">
+                    {% for crew in movie.crews %}
+                        {% if crew.role == 'DIRECTOR' %}
+                            <span>{{ crew.person.firstname ~ ' ' ~ crew.person.lastname }}</span>
+                        {% endif %}
+                    {% endfor %}
+
+                    <span>{{ movie.releasedAt|date('Y') }}</span>
+                </div>
+
+
             </a>
         {% endfor %}
     </div>
