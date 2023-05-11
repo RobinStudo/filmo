@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Explorer les films - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Explorer les films</h1>
+
+    <div class="movies">
+        {% for movie in movies %}
+            <a href="#" class="card">
+                <span>{{ movie.category.name }}</span>
+                <h2>{{ movie.name }}</h2>
+                <span>{{ movie.releasedAt|date('Y') }}</span>
+
+                {% for crew in movie.crews %}
+                    {% if crew.role == 'DIRECTOR' %}
+                        {{ crew.person.firstname ~ ' ' ~ crew.person.lastname }}
+                    {% endif %}
+                {% endfor %}
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
