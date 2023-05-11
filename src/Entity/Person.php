@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PersonRepository;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +28,18 @@ class Person
 
     #[ORM\Column(length: 2)]
     private ?string $nationality = null;
+
+    #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'actors')]
+    private Collection $actMovies;
+
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: Crew::class, orphanRemoval: true)]
+    private Collection $dutyCrews;
+
+    public function __construct()
+    {
+        $this->actMovies = new ArrayCollection();
+        $this->dutyCrews = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,6 +90,60 @@ class Person
     public function setNationality(string $nationality): self
     {
         $this->nationality = $nationality;
+
+        return $this;
+    }
+
+    public function getActMovies(): Collection
+    {
+        return $this->actMovies;
+    }
+
+    public function addActMovie(Movie $actMovie): self
+    {
+        if (!$this->actMovies->contains($actMovie)) {
+            $this->actMovies->add($actMovie);
+            $actMovie->addActor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActMovie(Movie $actMovie): self
+    {
+        if ($this->actMovies->removeElement($actMovie)) {
+            $actMovie->removeActor($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Crew>
+     */
+    public function getDutyCrews(): Collection
+    {
+        return $this->dutyCrews;
+    }
+
+    public function addDutyCrew(Crew $dutyCrew): self
+    {
+        if (!$this->dutyCrews->contains($dutyCrew)) {
+            $this->dutyCrews->add($dutyCrew);
+            $dutyCrew->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDutyCrew(Crew $dutyCrew): self
+    {
+        if ($this->dutyCrews->removeElement($dutyCrew)) {
+            // set the owning side to null (unless already changed)
+            if ($dutyCrew->getPerson() === $this) {
+                $dutyCrew->setPerson(null);
+            }
+        }
 
         return $this;
     }
