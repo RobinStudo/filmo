@@ -13,7 +13,7 @@
 
     <div class="movies">
         {% for movie in movies %}
-            <a href="#" class="card">
+            <a href="{{ path('movie_view', {id: movie.id}) }}" class="card">
                 <div class="card-header">
                     <span class="badge">{{ movie.category.name }}</span>
                     <img src="{{ asset('images/movie-default.jpg') }}" alt="{{ movie.name }}">
