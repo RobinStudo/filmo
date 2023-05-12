@@ -15,18 +15,21 @@ class MovieController extends AbstractController
     {
         $movies = $movieRepository->findAll();
 
-        // TODO
-        // 6 - (bonus) Mettre en forme l'affichage
-
         return $this->render('movie/list.html.twig', [
             'movies' => $movies,
         ]);
     }
 
     #[Route('/{id}', 'view', ['id' => '\d+'])]
-    public function view(): Response
+    public function view(MovieRepository $movieRepository, int $id): Response
     {
-        return new Response('Page de vue film');
+        $movie = $movieRepository->find($id);
+
+        // TODO - Afficher sur une page l'ensemble des détails du film
+
+        return $this->render('movie/view.html.twig', [
+            'movie' => $movie,
+        ]);
     }
 
     #[Route('/nouveau', 'create')]

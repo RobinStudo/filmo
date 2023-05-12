@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ movie.name }} - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ movie.name }}</h1>
+    <p>
+        {{ movie.summary }}
+    </p>
+    <div>
+        {{ movie.duration }} min
+    </div>
+    <div>
+        {{ movie.releasedAt|date('l j F Y') }}
+    </div>
+    <div>
+        {{ movie.category.name }}
+    </div>
+    <h2>Equipe de production</h2>
+    <ul>
+        {% for crew in movie.crews %}
+            <li>
+                {{ crew.person.firstname ~ ' ' ~ crew.person.lastname }}
+                | {{ crew.role }}
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>Casting</h2>
+    <ul>
+        {% for actor in movie.actors %}
+            <li>{{ actor.firstname ~ ' ' ~ actor.lastname }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
