@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -13,6 +14,17 @@ class Category
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Vous devez saisir un nom')]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'Le nom doit contenir au minimum {{ limit }} caractères',
+        maxMessage: 'Le nom doit contenir au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[A-Z]/',
+        message: 'Le nom doit commencer par une majuscule banane',
+    )]
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
