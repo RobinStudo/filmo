@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Nouvelle personne - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.birthdate) }}
+    {{ form_row(form.nationality) }}
+    
+    <button>Créer</button>
+    {{ form_end(form) }}
+{% endblock %}
