@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Nouvelle catégorie - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+
+    {{ form_row(form.name) }}
+
+    <button>Créer</button>
+    {{ form_end(form) }}
+{% endblock %}
