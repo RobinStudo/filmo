@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
@@ -17,15 +18,34 @@ class Person
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Vous devez saisir un prénom')]
+    #[Assert\Length(
+        min: 2,
+        max: 60,
+        minMessage: 'Le prénom doit contenir au minimum {{ limit }} caractères',
+        maxMessage: 'Le prénom doit contenir au maximum {{ limit }} caractères',
+    )]
     #[ORM\Column(length: 60)]
     private ?string $firstname = null;
 
+    #[Assert\NotBlank(message: 'Vous devez saisir un nom')]
+    #[Assert\Length(
+        min: 2,
+        max: 60,
+        minMessage: 'Le nom doit contenir au minimum {{ limit }} caractères',
+        maxMessage: 'Le nom doit contenir au maximum {{ limit }} caractères',
+    )]
     #[ORM\Column(length: 60)]
     private ?string $lastname = null;
 
+    #[Assert\LessThan(
+        value: 'today',
+        message: 'Vous ne pouvez pas prédire l\'avenir',
+    )]
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTimeInterface $birthdate = null;
 
+    #[Assert\NotBlank(message: 'Vous devez choisir une nationalité')]
     #[ORM\Column(length: 2)]
     private ?string $nationality = null;
 

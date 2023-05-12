@@ -34,6 +34,9 @@ class PersonType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Person::class,
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ]
         ]);
     }
 }
