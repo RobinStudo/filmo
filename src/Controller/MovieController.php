@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/films', 'movie_')]
@@ -25,7 +26,9 @@ class MovieController extends AbstractController
     {
         $movie = $movieRepository->find($id);
 
-        // TODO - Afficher sur une page l'ensemble des détails du film
+        if ($movie === null) {
+            throw new NotFoundHttpException();
+        }
 
         return $this->render('movie/view.html.twig', [
             'movie' => $movie,
