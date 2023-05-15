@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,9 +15,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     #[Route('/nouveau', name: 'create')]
-    public function form(EntityManagerInterface $em, Request $request): Response
-    {
-        $category = new Category();
+    #[Route('/{id}/editer', name: 'edit', requirements: ['id' => '\d+'])]
+    public function form(
+        CategoryRepository $categoryRepository,
+        EntityManagerInterface $em,
+        Request $request,
+        int $id = null
+    ): Response {
+        if ($id !== null) {
+            $category = $categoryRepository->find($id);
+            $isNew = false;
+        } else {
+            $category = new Category();
+            $isNew = true;
+        }
+
         $form = $this->createForm(CategoryType::class, $category);
 
         $form->handleRequest($request);
@@ -24,12 +37,14 @@ class CategoryController extends AbstractController
             $em->persist($category);
             $em->flush();
 
-            $this->addFlash('notice', 'La catégorie a bien été créée');
+            $verb = $isNew ? 'créée' : 'modifiée';
+            $this->addFlash('notice', 'La catégorie a bien été ' . $verb);
             return $this->redirectToRoute('category_create');
         }
 
         return $this->render('category/form.html.twig', [
             'form' => $form->createView(),
+            'is_new' => $isNew,
         ]);
     }
 }

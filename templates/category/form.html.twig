@@ -9,6 +9,8 @@
 
     {{ form_row(form.name) }}
 
-    <button>Créer</button>
+    <button class="btn btn-primary">
+        {{ is_new ? 'Créér' : 'Modifier' }}
+    </button>
     {{ form_end(form) }}
 {% endblock %}
