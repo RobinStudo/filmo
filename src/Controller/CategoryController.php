@@ -24,7 +24,7 @@ class CategoryController extends AbstractController
             $em->persist($category);
             $em->flush();
 
-            // TODO - Flash messages
+            $this->addFlash('notice', 'La catégorie a bien été créée');
             return $this->redirectToRoute('category_create');
         }
 

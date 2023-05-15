@@ -45,3 +45,47 @@ header nav ul li a:hover{
 main{
     padding: 10px;
 }
+
+.notification-manager{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.notification{
+    padding: 5px 10px;
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+    animation-name: notification-hide;
+    animation-delay: 5s;
+    animation-duration: 200ms;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    pointer-events: none;
+}
+
+.notification.notice{
+    background-color: green;
+}
+
+.notification.warning{
+    background-color: orange;
+}
+
+.notification.error{
+    background-color: red;
+}
+
+@keyframes notification-hide {
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}

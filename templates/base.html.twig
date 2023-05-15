@@ -15,6 +15,16 @@
         <main>
             {% block body %}{% endblock %}
         </main>
+
+        <div class="notification-manager">
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="notification {{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
     </body>
 </html>
 
