@@ -13,10 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/films', 'movie_')]
 class MovieController extends AbstractController
 {
-    #[Route('', 'list')]
-    public function list(MovieRepository $movieRepository): Response
+    private MovieRepository $movieRepository;
+
+    public function __construct(MovieRepository $movieRepository)
     {
-        $movies = $movieRepository->findAll();
+        $this->movieRepository = $movieRepository;
+    }
+
+    #[Route('', 'list')]
+    public function list(): Response
+    {
+        $movies = $this->movieRepository->findAll();
 
         return $this->render('movie/list.html.twig', [
             'movies' => $movies,
@@ -24,9 +31,9 @@ class MovieController extends AbstractController
     }
 
     #[Route('/{id}', 'view', ['id' => '\d+'])]
-    public function view(MovieRepository $movieRepository, int $id): Response
+    public function view(int $id): Response
     {
-        $movie = $movieRepository->find($id);
+        $movie = $this->movieRepository->find($id);
 
         if ($movie === null) {
             throw new NotFoundHttpException();
