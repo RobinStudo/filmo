@@ -15,6 +15,10 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            custom_authenticator: App\Security\LoginAuthenticator
+            logout:
+                path: security_logout
+                target: main_index
 
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
