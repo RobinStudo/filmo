@@ -15,6 +15,22 @@
             <li>
                 <a href="{{ path('main_about') }}">A propos</a>
             </li>
+            <li>
+                |
+            </li>
+            {% if app.user %}
+                <li>{{ app.user.email }}</li>
+                <li>
+                    <a href="{{ path('security_logout') }}">Déconnexion</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ path('security_login') }}">Connexion</a>
+                </li>
+                <li>
+                    <a href="#">Inscription</a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
 </header>

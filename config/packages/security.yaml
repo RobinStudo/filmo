@@ -19,6 +19,10 @@ security:
             logout:
                 path: security_logout
                 target: main_index
+            remember_me:
+                secret: '%kernel.secret%'
+                name: KEEPLOGIN
+                lifetime: 604800
 
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
