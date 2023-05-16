@@ -10,12 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/categorie', name: 'category_')]
 class CategoryController extends AbstractController
 {
     #[Route('/nouveau', name: 'create')]
     #[Route('/{id}/editer', name: 'edit', requirements: ['id' => '\d+'])]
+    #[IsGranted('ROLE_CONTRIBUTOR')]
     public function form(
         CategoryRepository $categoryRepository,
         EntityManagerInterface $em,

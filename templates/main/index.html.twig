@@ -9,22 +9,24 @@
         Il y a {{ notes|length }} notes à afficher.<br>
         La moyenne est de {{ average|round(2) }}
     </p>
-    <ul>
-        {% for note in notes %}
-            <li>
-                {{ note }}
+    {% if is_granted('ROLE_ADMIN') %}
+        <ul>
+            {% for note in notes %}
+                <li>
+                    {{ note }}
 
-                {% if note < 5 %}
-                    Pas bien
-                {% elseif note < 10 %}
-                    Passable
-                {% elseif note < 15 %}
-                    Bien
-                {% else %}
-                    Très bien
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+                    {% if note < 5 %}
+                        Pas bien
+                    {% elseif note < 10 %}
+                        Passable
+                    {% elseif note < 15 %}
+                        Bien
+                    {% else %}
+                        Très bien
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
 
