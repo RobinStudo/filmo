@@ -4,10 +4,19 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
+use Symfony\Component\Validator\Constraints\Regex;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(
+    fields: 'email',
+    message: 'Cette adresse email est déjà associée à un compte',
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -15,6 +24,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Vous devez saisir une adresse e-mail')]
+    #[Assert\Email(message: 'Cette adresse ne semble pas valide')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -90,5 +101,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials()
     {
+    }
+
+    public static function getPasswordConstraints(): array
+    {
+        return [
+            new NotBlank(message: 'Vous devez saisir un mot de passe'),
+            new Regex(
+                pattern: '/(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,40}/',
+                message: 'Votre mot de passe doit contenir au moins une lettre minuscule et majuscule ainsi qu\'un chiffre et doit contenir entre 8 et 40 caractères',
+            ),
+            new NotCompromisedPassword(message: 'Ce mot de passe a fuité')
+        ];
     }
 }
