@@ -46,6 +46,11 @@ class SecurityController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictureFile = $form->get('pictureFile')->getData();
+            $name = uniqid('avatar-') . '.' . $pictureFile->guessExtension();
+            $pictureFile->move('upload', $name);
+            $user->setPicture($name);
+
             $em->persist($user);
             $em->flush();
 

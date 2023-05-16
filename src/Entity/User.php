@@ -8,9 +8,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
-use Symfony\Component\Validator\Constraints\Regex;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(
@@ -106,12 +103,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public static function getPasswordConstraints(): array
     {
         return [
-            new NotBlank(message: 'Vous devez saisir un mot de passe'),
-            new Regex(
+            new Assert\NotBlank(message: 'Vous devez saisir un mot de passe'),
+            new Assert\Regex(
                 pattern: '/(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,40}/',
                 message: 'Votre mot de passe doit contenir au moins une lettre minuscule et majuscule ainsi qu\'un chiffre et doit contenir entre 8 et 40 caractères',
             ),
-            new NotCompromisedPassword(message: 'Ce mot de passe a fuité')
+            new Assert\NotCompromisedPassword(message: 'Ce mot de passe a fuité')
+        ];
+    }
+
+    public static function getPictureConstraints(): array
+    {
+        return [
+            new Assert\File(
+                maxSize: '2M',
+                maxSizeMessage: 'La taille maximum est de {{ limit }}{{ suffix }}',
+                extensions: ['jpeg', 'jpg', 'svg', 'png'],
+                extensionsMessage: 'Les formats autorisés sont JP(E)G, PNG et SVG',
+            )
         ];
     }
 }

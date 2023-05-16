@@ -6,13 +6,11 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
-use Symfony\Component\Validator\Constraints\Regex;
 
 class RegisterType extends AbstractType
 {
@@ -26,7 +24,11 @@ class RegisterType extends AbstractType
                 'mapped' => false,
                 'constraints' => User::getPasswordConstraints(),
             ])
-//            ->add('picture')
+            ->add('pictureFile', FileType::class, [
+                'label' => 'Avatar',
+                'mapped' => false,
+                'constraints' => User::getPictureConstraints(),
+            ])
             ->add('acceptTerms', CheckboxType::class, [
                 'label' => 'J\'accepte les conditions du service',
                 'mapped' => false,

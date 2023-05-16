@@ -19,7 +19,12 @@
                 |
             </li>
             {% if app.user %}
-                <li>{{ app.user.email }}</li>
+                <li>
+                    {% if app.user.picture %}
+                        <img src="{{ asset('upload/' ~ app.user.picture) }}" alt="Photo de profil" class="profile-picture">
+                    {% endif %}
+                    {{ app.user.email }}
+                </li>
                 <li>
                     <a href="{{ path('security_logout') }}">Déconnexion</a>
                 </li>

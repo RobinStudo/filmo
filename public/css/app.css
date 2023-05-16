@@ -42,6 +42,14 @@ header nav ul li a:hover{
     background-color: rgba(255, 255, 255, 0.4);
 }
 
+header .profile-picture{
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
 main{
     padding: 10px;
 }
