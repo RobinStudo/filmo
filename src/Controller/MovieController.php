@@ -60,4 +60,13 @@ class MovieController extends AbstractController
         $this->addFlash('notice', 'Le film a bien été supprimé');
         return $this->redirectToRoute('movie_list');
     }
+
+    #[Route('/aleatoire', 'random')]
+    public function random(): Response
+    {
+        $movie = $this->movieRepository->findRandom();
+        return $this->redirectToRoute('movie_view', [
+            'id' => $movie->getId(),
+        ]);
+    }
 }

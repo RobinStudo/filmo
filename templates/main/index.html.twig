@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block body %}
+    <a href="{{ path('movie_random') }}" class="btn btn-primary">Découvrir un film au hasard</a>
+
     <p>
         Il y a {{ notes|length }} notes à afficher.<br>
         La moyenne est de {{ average|round(2) }}
