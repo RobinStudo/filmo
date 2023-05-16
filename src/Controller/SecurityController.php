@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterType;
+use App\Service\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -35,7 +35,7 @@ class SecurityController extends AbstractController
     public function logout(): void {}
 
     #[Route(path: '/inscription', name: 'register')]
-    public function register(EntityManagerInterface $em, Request $request): Response
+    public function register(EntityManagerInterface $em, Request $request, FileService $fileService): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('main_index');
@@ -47,8 +47,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $pictureFile = $form->get('pictureFile')->getData();
-            $name = uniqid('avatar-') . '.' . $pictureFile->guessExtension();
-            $pictureFile->move('upload', $name);
+            $name = $fileService->upload($pictureFile, 'avatar');
             $user->setPicture($name);
 
             $em->persist($user);
